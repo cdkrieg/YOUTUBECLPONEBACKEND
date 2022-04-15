@@ -1,4 +1,4 @@
-const {Comment, validateComment} = require("../models/comment");
+const {Comment, validateComment} = require("../Models/comment");
 const express = require("express");
 const router = express.Router();
 
