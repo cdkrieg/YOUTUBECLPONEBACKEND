@@ -1,29 +1,21 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const productSchema = new mongoose.Schema({
-    name: {type: String, required: true, minlength:1, maxlength:25},
-    description: {type: String, required: true, minlength:1},
-    category: {type: String, required: true, minlength:1, maxlength:25},
-    price: {type: Number, required: true},
+const commentSchema = new mongoose.Schema({
+    comment: {type: String, required: true, minlength:1, maxlength:250},
     dateAdded: {type: Date, default: Date.now()},
 });
 
-function validateProduct(product){
+function validateComment(comment){
     const schema = Joi.object({
-        name: Joi.string().min(2).max(255).required(),
-        description: Joi.string().required(),
-        category: Joi.string().min(2).max(255).required(),
-        price: Joi.number().required()
+        comment: Joi.string().min(2).max(250).required(),
     })
-    return schema.validate(product);
+        return schema.validate(comment);
 }
 
-
-const Product = mongoose.model('Product', productSchema);
-
+const Comment = mongoose.model('Commment', commentSchema);
 module.exports = {
-    Product,
-    validateProduct,
-    productSchema,
+    Comment,
+    validateComment,
+    commentSchema,
 }; 
