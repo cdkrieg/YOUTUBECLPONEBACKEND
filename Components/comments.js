@@ -1,106 +1,67 @@
-const mongoose = require("mongoose");
-const Joi = require("joi");
-
-const productSchema = new mongoose.Schema({
-    name: {type: String, required: true, minlength:1, maxlength:25},
-    description: {type: String, required: true, minlength:1},
-    category: {type: String, required: true, minlength:1, maxlength:25},
-    price: {type: Number, required: true},
-    dateAdded: {type: Date, default: Date.now()},
-});
-
-function validateProduct(product){
-    const schema = Joi.object({
-        name: Joi.string().min(2).max(255).required(),
-        description: Joi.string().required(),
-        category: Joi.string().min(2).max(255).required(),
-        price: Joi.number().required()
-    })
-    return schema.validate(product);
-}
-
-
-const Product = mongoose.model('Product', productSchema);
-
-module.exports = {
-    Product,
-    validateProduct,
-    productSchema,
-}; 
- 82  
-routes/comments.js
-const {Product, validateProduct} = require("../models/product");
+const {Comment, validateComment} = require("../models/comment");
 const express = require("express");
 const router = express.Router();
 
-//Get products(ALL)
+//All comments
 router.get("/", async (req, res) => {
     try {
-        let products = await Product.find();
-        if (!products) return res.status(400).send(`No products in this collection!`);
-        return res.status(200).send(products);
+        let comments = await Comment.find();
+        if (!comments) return res.status(400).send(`No comments in this collection!`);
+        return res.status(200).send(comments);
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
 });
 
 //ID product
-router.get("/:productId", async (req,res) => {
+router.get("/:commentId", async (req,res) => {
     try {
-        let product = await Product.findById(req.params.productId)
-        if (!product)
-            return res.status(400).send(`Product with Id of ${req.params.productId} does not exist!`);
-        return res.status(200).send(product);
+        let comment = await Comment.findById(req.params.commentId)
+        if (!comment)
+            return res.status(400).send(`Comment with Id of ${req.params.commentId} does not exist!`);
+        return res.status(200).send(comment);
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
 })
 
-//Post product
+// New Product
 router.post("/", async (req, res) => {
     try {
-        const {error} = validateProduct(req.body)
+        const {error} = validateComment(req.body)
         if (error) return res.status(400).send(error);
-
-        let newProduct = await new Product(req.body)
-        await newProduct.save()
-
-        return res.status(201).send(newProduct)
+        return res.status(201).send(newComment)
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
 });
 
-//Input products
-router.put("/:productId", async (req,res) => {
+//Existing Product
+router.put("/:commentId", async (req,res) => {
     try {
-        const {error} = validateProduct(req.body)
+        const {error} = validateComment(req.body)
         if (error) return res.status(400).send(error);
-
-        let product = await Product.findByIdAndUpdate(req.params.productId, req.body, {new: true});
-        if (!product)
-        return res.status(400).send(`Product with Id of ${req.params.productId} does not exist!`);
-
-        return res.send(product);
+        let comment = await Comment.findByIdAndUpdate(req.params.commentId, req.body, {new: true});
+        if (!comment)
+        return res.status(400).send(`Comment with Id of ${req.params.commentId} does not exist!`);
+        return res.send(comment);
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
 })
 
-//Erase products
-router.delete("/:productId", async (req, res) => {
+// Delete product
+router.delete("/:commentId", async (req, res) => {
     try {
-        let product = await Product.findByIdAndDelete(req.params.productId);
-        if (!product)
-            return res.status(400).send(`Product with Id of ${req.params.productId} does not exist!`);
-        return res.status(200).send(product);
+        let comment = await Comment.findByIdAndDelete(req.params.commentId);
+        if (!comment)
+            return res.status(400).send(`Comment with Id of ${req.params.commentId} does not exist!`);
+        return res.status(200).send(comment);
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);   
     }
 });
 
 
+module.exports = router;
 
-
-
-module.exports = router; 
