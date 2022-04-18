@@ -1,35 +1,36 @@
 const express = require("express");
-const { User, validateUser } = require("../models/user");
-const { Product, validateProduct } = require("../models/product");
+const { Comment, validateComment } = require("../models/comment");
+const { Reply, validateReply } = require("../models/reply");
 const { send } = require("express/lib/response");
 const router = express.Router();
 
 
-//POST a user
-//http://localhost:3007/api/users
+//POST a reply
+//http://localhost:3007/api/replies
 
 router.post("/", async (req,res)=>{
     try {
-        let { error } = validateUser(req.body);
-        if (error) return res.status(400).send(`Body for user not valid! ${error}`);
-
-        let newUser = await new User(req.body);
-        await newUser.save();
-        return res.status(201).send(newUser);
+        let { error } = validateReply(req.body);
+        if (error) return res.status(400).send(`Body for reply not valid! ${error}`);
+  
+        let newReply = await new Reply(req.body);
+        await newReply.save();
+        return res.status(201).send(newReply);
 
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     };
 });
 
-//GET all users
-//http://localhost:3007/api/users
+//GET all replies
+//http://localhost:3007/api/replies
 
 router.get("/", async (req,res)=>{
     try {
-        let users = await User.find();
-        if (!users) return res.status(400).send(`No users in the collection!`);
-        return res.send(users);
+        let replies = await Reply.find();
+        if (!replies) return res.status(400).send(`No replies in the collection!`);
+        return res.send(replies);
+      
     } catch (error) {
         return res.status(500).send(`Internal Server Error: ${error}`);
     }
