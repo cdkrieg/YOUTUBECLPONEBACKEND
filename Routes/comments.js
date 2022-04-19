@@ -74,6 +74,53 @@ router.post("/", async (req, res) => {
     }
 });
 
+//comment like
+//http://localhost:3011/api/comments/:commentId/commentLike
+router.put("/:commentId/commentLike", async (req, res)=>{
+    try {
+        let comment = await Comment.findById(req.params.commentId);
+        if (!comment)
+         return res
+         .status(400)
+         .send(`Comment with Id of ${req.params.commentId} does not exist!`);
+
+         comment.likes++;
+         await comment.save();
+
+         return res
+         .status(200)
+         .send(comment);        
+    } catch (error) {
+        return res
+        .status(500)
+        .send(`Internal Server Error: ${error}`);
+
+    }
+})
+// comment dislike
+//http://localhost:3011/api/comments/:commentId/commentDisLike
+router.put("/:commentId/commentDisLike", async (req, res)=>{
+    try {
+        let comment = await Comment.findById(req.params.commentId);
+        if (!comment)
+         return res
+         .status(400)
+         .send(`Comment with Id of ${req.params.commentId} does not exist!`);
+
+         comment.dislikes++;
+         await comment.save();
+
+         return res
+         .status(200)
+         .send(comment);        
+    } catch (error) {
+        return res
+        .status(500)
+        .send(`Internal Server Error: ${error}`);
+
+    }
+})
+
 //POST a reply to a comment
 //http://localhost:3007/api/comments/:commentId/replies/:replyId
 router.post("/:commentId/replies/:replyId", async(req,res)=>{
