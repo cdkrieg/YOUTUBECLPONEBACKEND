@@ -16,17 +16,24 @@ router.get("/", async (req, res) => {
     }
 });
 
-//GET Comment by id
-//http://localhost:3007/api/comments/6254d8a0c8b02b63a73c49ad
-router.get("/:id", async (req, res) => {
+//GET a comment by videoid
+//http://localhost:3011/api/comments/:videoId
+router.get("/:videoId", async (req, res)=>{
     try {
-        let comment = await Comment.findById(req.params.id);
-        if (!Comment) return res.status(400).send(`Comment with id "${req.params.id}" does not exist!`);
-        return res.send(comment);
-    } catch (error) {
-        return res.status(500).send(`Internal Server Error: ${error}`);
-    }
-});
+        let comment = await Comment.find (req.params, {}, { _id: 0, videoId: 1});
+        if (!comment)
+            return res
+            .status(400)  
+            return res
+            .status(200)
+            .send(comment);       
+        } catch (error) {
+            return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);        
+        }
+    })
+    
 
 //PUT update a Comment
 router.put("/:id", async (req, res) => {
