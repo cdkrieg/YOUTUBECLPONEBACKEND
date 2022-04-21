@@ -3,11 +3,11 @@ const Joi = require("joi");
 const { repliesSchema } = require("./reply");
 
 const commentSchema = new mongoose.Schema({
-    name: { type: String, required: true, minlength: 2, maxlength: 255 },
+    videoId: { type: String, required: true, minlength: 2, maxlength: 255 },
     body: { type: String, required: true, minlength: 2 },
     like: { type: Boolean, required: true },
     dislike: { type: Boolean, required: true },
-    dateAdded: { type: Date, default: Date.now() },
+    dateAdded: { type: Date, default: new Date(Date.now()).toLocaleDateString() },
     replies: [repliesSchema],
   });
   
