@@ -9,7 +9,7 @@ const repliesSchema = mongoose.Schema({
 
 function validateReply(comment) {
   const schema = Joi.object({
-    name: Joi.string().min(2).max(255).required(),
+    videoId: Joi.string().min(2).max(255).required(),
     body: Joi.string().required(),
   });
   return schema.validate(comment);
