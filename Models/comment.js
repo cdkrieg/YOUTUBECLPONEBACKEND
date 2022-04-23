@@ -13,7 +13,7 @@ const commentSchema = new mongoose.Schema({
   
   function validateComment(comment) {
     const schema = Joi.object({
-      name: Joi.string().min(2).max(255).required(),
+      videoId: Joi.string().min(2).max(255).required(),
       body: Joi.string().required(),
       like: Joi.boolean().required(),
       dislike: Joi.boolean().required(),
