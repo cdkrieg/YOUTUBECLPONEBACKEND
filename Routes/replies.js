@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 //POST a reply
-//http://localhost:3007/api/replies
+//http://localhost:5000/api/replies
 
 router.post("/", async (req,res)=>{
     try {
@@ -23,7 +23,7 @@ router.post("/", async (req,res)=>{
 });
 
 //GET all replies
-//http://localhost:3007/api/replies
+//http://localhost:5000/api/replies
 
 router.get("/", async (req,res)=>{
     try {
@@ -37,7 +37,7 @@ router.get("/", async (req,res)=>{
 });
 
 //POST a product 
-//http://localhost:3007/api/users/:userId/shoppingcart/:productId
+//http://localhost:5000/api/users/:userId/shoppingcart/:productId
 router.post("/:userId/shoppingcart/:productId", async(req,res)=>{
     try {
         let user = await User.findById(req.params.userId);
@@ -55,7 +55,7 @@ router.post("/:userId/shoppingcart/:productId", async(req,res)=>{
 })
 
 //PUT an existing product 
-//http://localhost:3007/api/users/:userId/shoppingcart/:productId
+//http://localhost:5000/api/users/:userId/shoppingcart/:productId
 router.put("/:userId/shoppingcart/:productId", async(req,res)=>{
     try {
         let { error } = validateProduct(req.body);
@@ -82,7 +82,7 @@ router.put("/:userId/shoppingcart/:productId", async(req,res)=>{
 
 
 //DELETE an existing product 
-//http://localhost:3007/api/users/:userId/shoppingcart/:productId
+//http://localhost:5000/api/users/:userId/shoppingcart/:productId
 router.delete("/:userId/shoppingcart/:productId", async(req,res)=>{
     try {
         let user = await User.findById(req.params.userId);

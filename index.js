@@ -3,7 +3,7 @@ const connectDb = require("./startup/db");
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const comments = require("./routes/comments");
+const comments = require("./routes/comments.js");
 const replies = require("./routes/replies.js");
 
 connectDb();

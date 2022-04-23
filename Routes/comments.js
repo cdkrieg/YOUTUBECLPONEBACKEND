@@ -5,7 +5,7 @@ const {append} = require("express/lib/response")
 const router = express.Router();
 
 //GET all comments
-//http://localhost:3007/api/comments
+//http://localhost:5000/api/comments
 router.get("/", async (req, res) => {
     try {
         let comments = await Comment.find();
@@ -17,10 +17,10 @@ router.get("/", async (req, res) => {
 });
 
 //GET a comment by videoid
-//http://localhost:3011/api/comments/:videoId
+//http://localhost:5000/api/comments/:videoId
 router.get("/:videoId", async (req, res)=>{
     try {
-        let comment = await Comment.find (req.params, {}, { _id: 0, videoId: 1});
+        let comment = await Comment.find(req.params, {}, { _id: 0, videoId: 1});
         if (!comment)
             return res
             .status(400)  
@@ -57,7 +57,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //DELETE a Comment
-//http://localhost:3007/api/comments/6254e000fbe3ae214584dba7
+//http://localhost:5000/api/comments/6254e000fbe3ae214584dba7
 router.delete("/:id", async (req, res) => {
     try {
         let comment = await Comment.findByIdAndDelete(req.params.id);
@@ -82,7 +82,7 @@ router.post("/", async (req, res) => {
 });
 
 //comment like
-//http://localhost:3011/api/comments/:commentId/commentLike
+//http://localhost:5000/api/comments/:commentId/commentLike
 router.put("/:commentId/commentLike", async (req, res)=>{
     try {
         let comment = await Comment.findById(req.params.commentId);
@@ -105,7 +105,7 @@ router.put("/:commentId/commentLike", async (req, res)=>{
     }
 })
 // comment dislike
-//http://localhost:3011/api/comments/:commentId/commentDisLike
+//http://localhost:5000/api/comments/:commentId/commentDisLike
 router.put("/:commentId/commentDisLike", async (req, res)=>{
     try {
         let comment = await Comment.findById(req.params.commentId);
@@ -129,7 +129,7 @@ router.put("/:commentId/commentDisLike", async (req, res)=>{
 })
 
 //POST a reply to a comment
-//http://localhost:3007/api/comments/:commentId/replies/:replyId
+//http://localhost:5000/api/comments/:commentId/replies/:replyId
 router.post("/:commentId/replies/:replyId", async(req,res)=>{
     try {
         let comment = await Comment.findById(req.params.commentId);
