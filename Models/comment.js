@@ -20,7 +20,7 @@ const commentSchema = new mongoose.Schema({
     });
     return schema.validate(comment);
   }
-  const Comment = mongoose.model("Comment", commentSchema);
+  const Comment = mongoose.models.Comment || mongoose.model("Comment", commentSchema);
   module.exports = {
     Comment,
     validateComment,
